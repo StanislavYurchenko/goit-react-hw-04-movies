@@ -11,8 +11,6 @@ function MoviePagination(props) {
     setCurrentPage,
   } = props;
 
-  //disabled={currentPage - 1 <= 0}
-
   const firstPaginationItemNumber = () => {
     return (
       (currentPage < 3 && 1) ||
@@ -46,6 +44,7 @@ function MoviePagination(props) {
             disabled={currentPage === 1}
           />
         )}
+
         {total_pages > 3 && (
           <Pagination.Item
             onClick={() => setCurrentPage(1)}
@@ -54,6 +53,7 @@ function MoviePagination(props) {
             {1}
           </Pagination.Item>
         )}
+
         {total_pages > 3 && (
           <Pagination.Ellipsis
             disabled={currentPage - 3 < 1}
@@ -97,6 +97,7 @@ function MoviePagination(props) {
             disabled={currentPage + 3 > total_pages}
           />
         )}
+
         {total_pages > 3 && (
           <Pagination.Item
             onClick={() => setCurrentPage(total_pages)}
@@ -105,6 +106,7 @@ function MoviePagination(props) {
             {total_pages}
           </Pagination.Item>
         )}
+
         {total_pages >= 2 && (
           <Pagination.Next
             onClick={() => increaseCurrentPage(1)}

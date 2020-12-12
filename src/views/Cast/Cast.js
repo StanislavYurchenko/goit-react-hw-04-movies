@@ -1,39 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getCastsByMovieId, BASE_URL_POSTER } from '../../services/themoviedbApi';
+import {
+  getCastsByMovieId,
+  BASE_URL_POSTER,
+} from '../../services/themoviedbApi';
 
-class Cast extends Component {
-  state = {
-    cast: null,
-    error: false,
-    loading: false,
-  };
-  componentDidMount = () => {
-    const { match } = this.props;
-    const { movieId } = match.params;
-    getCastsByMovieId(movieId).then(res => this.setState({ cast: res.cast }));
-  };
+function Cast({ match }) {
+  const { movieId } = match.params;
 
-  render() {
-    const { cast } = this.state;
-    return (
-      <>
-        <h2> Cast </h2>
-        {cast && (
-          <ul>
-            {cast.map((actor, id) => {
-              return (
-                <li key={actor.id + id}>
-                  <h4>{actor.name}</h4>
-                  <img src={`${BASE_URL_POSTER}${actor.profile_path}`} alt={actor.name} width={100} />
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </>
-    );
-  }
+  const [cast, setCast] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(false);
+    getCastsByMovieId(movieId)
+      .then(res => setCast(res.cast))
+      .catch(setError(true))
+      .finally(setLoading(false));
+  }, [movieId]);
+
+  return (
+    <>
+      <h2> Cast </h2>
+      {loading && <div>Loading....</div>}
+      {cast.length > 0 && (
+        <ul>
+          {cast.map((actor, id) => {
+            return (
+              <li key={actor.id + id}>
+                <h4>{actor.name}</h4>
+                <img
+                  src={`${BASE_URL_POSTER}${actor.profile_path}`}
+                  alt={actor.name}
+                  width={100}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {cast.length === 0 && <div>List is empty!</div>}
+    </>
+  );
 }
 
 // HOW TO DO THIS CORRECT??????????????

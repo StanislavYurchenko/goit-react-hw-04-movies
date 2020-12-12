@@ -28,7 +28,13 @@ class SearchBox extends Component {
     const { userQuery } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
-        <input type="text" name="userQuery" onChange={this.onChange} value={userQuery} placeholder="Search movies" />
+        <input
+          type="text"
+          name="userQuery"
+          onChange={this.onChange}
+          value={userQuery}
+          placeholder="Search movies"
+        />
         <button type="submit">Search</button>
       </form>
     );
