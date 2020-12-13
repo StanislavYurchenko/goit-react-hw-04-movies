@@ -10,29 +10,37 @@ function HomePage({ history, location }) {
   const [popularList, setPopularList] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // setCurrentPage(parseQueryString(location.search));
+  const currentPage = Number(parseQueryString(location.search).currentPage);
 
   const getPopularMovie = () => {
-    popularFetch(+currentPage).then(({ results, total_pages }) => {
-      setPopularList(results);
-      setTotalPages(total_pages);
+    setTimeout(() => {
+      popularFetch(currentPage).then(({ results, total_pages }) => {
+        setPopularList(results);
+        setTotalPages(total_pages);
+      });
+    }, 2000);
+  };
+
+  const setCurrentPage = pageNumber => {
+    history.push({
+      ...location,
+      search: `currentPage=${pageNumber}`,
     });
   };
 
-  const increaseCurrentPage = (number = 1) => {
+  const increaseCurrentPage = (pageNumber = 1) => {
     history.push({
       ...location,
-      search: `currentPage=${+parseQueryString(currentPage) + number}`,
+      search: `currentPage=${currentPage + pageNumber}`,
     });
   };
 
-  const decreaseCurrentPage = (number = 1) => {
+  const decreaseCurrentPage = (pageNumber = 1) => {
     history.push({
       ...location,
-      search: `currentPage=${+parseQueryString(currentPage) + number}`,
+      search: `currentPage=${currentPage - pageNumber}`,
     });
   };
 
@@ -40,13 +48,13 @@ function HomePage({ history, location }) {
     .path;
 
   useEffect(() => {
+    console.log('useeffect');
     getPopularMovie();
-
     history.push({
       ...location,
-      search: `currentPage=${+currentPage ? +currentPage : 1}`,
+      search: `currentPage=${currentPage ? currentPage : 1}`,
     });
-  }, []);
+  }, [currentPage, history]);
 
   return (
     <section>
@@ -69,12 +77,13 @@ function HomePage({ history, location }) {
               );
             })}
           </ul>
+
           <MoviePagination
             increaseCurrentPage={increaseCurrentPage}
             decreaseCurrentPage={decreaseCurrentPage}
             setCurrentPage={setCurrentPage}
-            currentPage={+currentPage}
-            total_pages={totalPages}
+            currentPage={currentPage}
+            totalPages={totalPages}
           />
         </>
       )}

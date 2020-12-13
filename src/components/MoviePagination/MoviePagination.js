@@ -7,14 +7,14 @@ function MoviePagination(props) {
     increaseCurrentPage,
     currentPage,
     decreaseCurrentPage,
-    total_pages,
+    totalPages,
     setCurrentPage,
   } = props;
 
   const firstPaginationItemNumber = () => {
     return (
       (currentPage < 3 && 1) ||
-      (currentPage > total_pages - 2 && total_pages - 2) ||
+      (currentPage > totalPages - 2 && totalPages - 2) ||
       currentPage - 1
     );
   };
@@ -22,14 +22,14 @@ function MoviePagination(props) {
   const secondPaginationItemNumber = () => {
     return (
       (currentPage < 3 && 2) ||
-      (currentPage > total_pages - 2 && total_pages - 1) ||
+      (currentPage > totalPages - 2 && totalPages - 1) ||
       currentPage
     );
   };
 
   const thirdPaginationItemNumber = () => {
     return (
-      (currentPage > total_pages - 2 && total_pages) ||
+      (currentPage > totalPages - 2 && totalPages) ||
       (currentPage < 2 && 3) ||
       currentPage + 1
     );
@@ -38,14 +38,14 @@ function MoviePagination(props) {
   return (
     <div>
       <Pagination>
-        {total_pages >= 2 && (
+        {totalPages >= 2 && (
           <Pagination.Prev
             onClick={() => decreaseCurrentPage(1)}
             disabled={currentPage === 1}
           />
         )}
 
-        {total_pages > 3 && (
+        {totalPages > 3 && (
           <Pagination.Item
             onClick={() => setCurrentPage(1)}
             disabled={currentPage === 1}
@@ -54,14 +54,14 @@ function MoviePagination(props) {
           </Pagination.Item>
         )}
 
-        {total_pages > 3 && (
+        {totalPages > 3 && (
           <Pagination.Ellipsis
             disabled={currentPage - 3 < 1}
             onClick={() => decreaseCurrentPage(3)}
           />
         )}
 
-        {total_pages >= 1 && (
+        {totalPages >= 1 && (
           <Pagination.Item
             active={currentPage === 1}
             onClick={() => setCurrentPage(firstPaginationItemNumber())}
@@ -70,11 +70,10 @@ function MoviePagination(props) {
           </Pagination.Item>
         )}
 
-        {total_pages >= 2 && (
+        {totalPages >= 2 && (
           <Pagination.Item
             active={
-              (currentPage > 1 && currentPage < total_pages) ||
-              currentPage === 2
+              (currentPage > 1 && currentPage < totalPages) || currentPage === 2
             }
             onClick={() => setCurrentPage(secondPaginationItemNumber())}
           >
@@ -82,35 +81,35 @@ function MoviePagination(props) {
           </Pagination.Item>
         )}
 
-        {total_pages >= 3 && (
+        {totalPages >= 3 && (
           <Pagination.Item
-            active={currentPage === total_pages}
+            active={currentPage === totalPages}
             onClick={() => setCurrentPage(thirdPaginationItemNumber())}
           >
             {thirdPaginationItemNumber()}
           </Pagination.Item>
         )}
 
-        {total_pages > 3 && (
+        {totalPages > 3 && (
           <Pagination.Ellipsis
             onClick={() => increaseCurrentPage(3)}
-            disabled={currentPage + 3 > total_pages}
+            disabled={currentPage + 3 > totalPages}
           />
         )}
 
-        {total_pages > 3 && (
+        {totalPages > 3 && (
           <Pagination.Item
-            onClick={() => setCurrentPage(total_pages)}
-            disabled={currentPage === total_pages}
+            onClick={() => setCurrentPage(totalPages)}
+            disabled={currentPage === totalPages}
           >
-            {total_pages}
+            {totalPages}
           </Pagination.Item>
         )}
 
-        {total_pages >= 2 && (
+        {totalPages >= 2 && (
           <Pagination.Next
             onClick={() => increaseCurrentPage(1)}
-            disabled={currentPage === total_pages}
+            disabled={currentPage === totalPages}
           />
         )}
       </Pagination>
@@ -122,7 +121,7 @@ MoviePagination.propTypes = {
   increaseCurrentPage: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
   decreaseCurrentPage: PropTypes.func.isRequired,
-  total_pages: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
 };
 
