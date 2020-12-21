@@ -12,7 +12,10 @@ function HomePage({ history, location }) {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
-  const currentPage = Number(parseQueryString(location.search).currentPage);
+  const currentPage =
+    (Number(parseQueryString(location.search).currentPage) &&
+      Number(parseQueryString(location.search).currentPage)) ||
+    1;
 
   const setCurrentPage = pageNumber => {
     history.push({
