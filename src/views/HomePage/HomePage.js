@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { popularFetch } from '../../services/themoviedbApi';
@@ -13,9 +13,7 @@ function HomePage({ history, location }) {
   const [totalPages, setTotalPages] = useState(1);
 
   const currentPage =
-    (Number(parseQueryString(location.search).currentPage) &&
-      Number(parseQueryString(location.search).currentPage)) ||
-    1;
+    Number(parseQueryString(location.search).currentPage) || 1;
 
   const setCurrentPage = pageNumber => {
     history.push({
@@ -43,12 +41,10 @@ function HomePage({ history, location }) {
 
   useEffect(() => {
     const getPopularMovie = () => {
-      setTimeout(() => {
-        popularFetch(currentPage).then(({ results, total_pages }) => {
-          setPopularList(results);
-          setTotalPages(total_pages);
-        });
-      }, 2000);
+      popularFetch(currentPage).then(({ results, total_pages }) => {
+        setPopularList(results);
+        setTotalPages(total_pages);
+      });
     };
 
     getPopularMovie();
