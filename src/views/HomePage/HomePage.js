@@ -8,8 +8,6 @@ import parseQueryString from '../../utils/parseQueryString';
 
 function HomePage({ history, location }) {
   const [popularList, setPopularList] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
   const currentPage =
